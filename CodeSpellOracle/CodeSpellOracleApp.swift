@@ -11,9 +11,9 @@ struct CodeSpellOracleApp: App {
             ContentWrapperView()
                 .environmentObject(gameState)
                 .environmentObject(windowManager)
-                .frame(minWidth: 900, minHeight: 600)
+                .frame(minWidth: 1200, minHeight: 700)
         }
-        .defaultSize(width: 1000, height: 700)
+        .defaultSize(width: 1400, height: 800)
         .commands {
             CommandGroup(replacing: .newItem) {
                 Button("New Game") {

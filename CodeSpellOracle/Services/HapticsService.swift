@@ -1,22 +1,28 @@
+import Foundation
 import AppKit
 
-final class HapticsService {
+class HapticsService {
     static let shared = HapticsService()
+    
     private init() {}
     
-    enum Feedback {
-        case success, error, selection
+    func play(_ type: HapticType) {
+        switch type {
+        case .success:
+            NSHapticFeedbackManager.defaultPerformer.perform(.generic, performanceTime: .now)
+        case .error:
+            NSHapticFeedbackManager.defaultPerformer.perform(.alignment, performanceTime: .now)
+        case .warning:
+            NSHapticFeedbackManager.defaultPerformer.perform(.levelChange, performanceTime: .now)
+        case .light:
+            NSHapticFeedbackManager.defaultPerformer.perform(.generic, performanceTime: .now)
+        }
     }
     
-    func play(_ feedback: Feedback) {
-        let performer = NSHapticFeedbackManager.defaultPerformer
-        switch feedback {
-        case .success:
-            performer.perform(.levelChange, performanceTime: .now)
-        case .error:
-            performer.perform(.alignment, performanceTime: .now)
-        case .selection:
-            performer.perform(.generic, performanceTime: .now)
-        }
+    enum HapticType {
+        case success
+        case error
+        case warning
+        case light
     }
 }

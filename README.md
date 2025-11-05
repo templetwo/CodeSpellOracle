@@ -73,7 +73,7 @@ The Python sandbox includes security measures:
 
 ## License
 
-Copyright © 2024 Spiral. All rights reserved.
+Copyright © 2025 Spiral. All rights reserved.
 
 ## Version
 

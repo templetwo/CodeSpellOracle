@@ -26,14 +26,14 @@
 			containerPortal = 2D3FFAAF2EBA571800EC2D08 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 2D3FFAB62EBA571900EC2D08;
-			remoteInfo = "CodeSpellOracle";
+			remoteInfo = CodeSpellOracle;
 		};
 		2D3FFAD02EBA571900EC2D08 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 2D3FFAAF2EBA571800EC2D08 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 2D3FFAB62EBA571900EC2D08;
-			remoteInfo = "CodeSpellOracle";
+			remoteInfo = CodeSpellOracle;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -41,88 +41,15 @@
 		2D1D7CA72EBAB593009ED1C4 /* CodeSpellOracle.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CodeSpellOracle.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D1D7CB62EBAB594009ED1C4 /* CodeSpellOracleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CodeSpellOracleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D1D7CC02EBAB594009ED1C4 /* CodeSpellOracleUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CodeSpellOracleUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		2D1D7D5A2EBAF6E0009ED1C4 /* CodeSpellOracle.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = "CodeSpellOracle.xcodeproj"; sourceTree = "<group>"; };
-		2D3FFAB72EBA571900EC2D08 /* CodeSpellOracle.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "CodeSpellOracle.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		2D3FFAC52EBA571900EC2D08 /* CodeSpellOracleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "CodeSpellOracleTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		2D3FFACF2EBA571900EC2D08 /* CodeSpellOracleUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "CodeSpellOracleUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		2D1D7D5A2EBAF6E0009ED1C4 /* CodeSpellOracle.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = CodeSpellOracle.xcodeproj; sourceTree = "<group>"; };
+		2D3FFAB72EBA571900EC2D08 /* CodeSpellOracle.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CodeSpellOracle.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		2D3FFAC52EBA571900EC2D08 /* CodeSpellOracleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CodeSpellOracleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		2D3FFACF2EBA571900EC2D08 /* CodeSpellOracleUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CodeSpellOracleUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
-
-/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		2D1D7D3F2EBAF11A009ED1C4 /* Exceptions for "CodeSpellOracle" folder in "CodeSpellOracle" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				"CodeSpellOracle/CodeSpellOracleApp.swift",
-				"CodeSpellOracle/Models/Achievement.swift",
-				"CodeSpellOracle/Models/Level.swift",
-				"CodeSpellOracle/Models/LevelDefinitions.swift",
-				"CodeSpellOracle/Models/PlayerProfile.swift",
-				"CodeSpellOracle/Services/GameState.swift",
-				"CodeSpellOracle/Services/HapticsService.swift",
-				"CodeSpellOracle/Services/PythonSandboxService.swift",
-				"CodeSpellOracle/Services/SaveSystem.swift",
-				"CodeSpellOracle/Services/WindowManager.swift",
-				"CodeSpellOracle/Utilities/AnimationHelpers.swift",
-				"CodeSpellOracle/Utilities/ColorTheme.swift",
-				"CodeSpellOracle/Utilities/DesignModifiers.swift",
-				"CodeSpellOracle/Utilities/PremiumTheme.swift",
-				"CodeSpellOracle/Utilities/Theme.swift",
-				"CodeSpellOracle/Views/AchievementView.swift",
-				"CodeSpellOracle/Views/Components/ButtonStyles.swift",
-				"CodeSpellOracle/Views/Components/ProgressBars.swift",
-				"CodeSpellOracle/Views/Components/SkeletonView.swift",
-				"CodeSpellOracle/Views/Components/Toast.swift",
-				"CodeSpellOracle/Views/ContentWrapperView.swift",
-				"CodeSpellOracle/Views/LeaderboardView.swift",
-				"CodeSpellOracle/Views/LevelSelectionView.swift",
-				"CodeSpellOracle/Views/MainGameView.swift",
-				"CodeSpellOracle/Views/MainGameViewPremium.swift",
-				"CodeSpellOracle/Views/SettingsView.swift",
-				"CodeSpellOracle/Views/TutorialView.swift",
-			);
-			target = 2D3FFAB62EBA571900EC2D08 /* CodeSpellOracle */;
-		};
-		2D1D7D402EBAF11A009ED1C4 /* Exceptions for "CodeSpellOracle" folder in "CodeSpellOracle" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				"CodeSpellOracle/CodeSpellOracleApp.swift",
-				"CodeSpellOracle/Models/Achievement.swift",
-				"CodeSpellOracle/Models/Level.swift",
-				"CodeSpellOracle/Models/LevelDefinitions.swift",
-				"CodeSpellOracle/Models/PlayerProfile.swift",
-				"CodeSpellOracle/Services/GameState.swift",
-				"CodeSpellOracle/Services/HapticsService.swift",
-				"CodeSpellOracle/Services/PythonSandboxService.swift",
-				"CodeSpellOracle/Services/SaveSystem.swift",
-				"CodeSpellOracle/Services/WindowManager.swift",
-				"CodeSpellOracle/Utilities/AnimationHelpers.swift",
-				"CodeSpellOracle/Utilities/ColorTheme.swift",
-				"CodeSpellOracle/Utilities/DesignModifiers.swift",
-				"CodeSpellOracle/Utilities/PremiumTheme.swift",
-				"CodeSpellOracle/Utilities/Theme.swift",
-				"CodeSpellOracle/Views/AchievementView.swift",
-				"CodeSpellOracle/Views/Components/ButtonStyles.swift",
-				"CodeSpellOracle/Views/Components/ProgressBars.swift",
-				"CodeSpellOracle/Views/Components/SkeletonView.swift",
-				"CodeSpellOracle/Views/Components/Toast.swift",
-				"CodeSpellOracle/Views/ContentWrapperView.swift",
-				"CodeSpellOracle/Views/LeaderboardView.swift",
-				"CodeSpellOracle/Views/LevelSelectionView.swift",
-				"CodeSpellOracle/Views/MainGameView.swift",
-				"CodeSpellOracle/Views/MainGameViewPremium.swift",
-				"CodeSpellOracle/Views/SettingsView.swift",
-				"CodeSpellOracle/Views/TutorialView.swift",
-			);
-			target = 2D1D7CA62EBAB593009ED1C4 /* CodeSpellOracle */;
-		};
-/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		2D1D7CA82EBAB593009ED1C4 /* CodeSpellOracle */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				2D1D7D3F2EBAF11A009ED1C4 /* Exceptions for "CodeSpellOracle" folder in "CodeSpellOracle" target */,
-				2D1D7D402EBAF11A009ED1C4 /* Exceptions for "CodeSpellOracle" folder in "CodeSpellOracle" target */,
-			);
 			path = CodeSpellOracle;
 			sourceTree = "<group>";
 		};
@@ -297,10 +224,10 @@
 			);
 			dependencies = (
 			);
-			name = "CodeSpellOracle";
+			name = CodeSpellOracle;
 			packageProductDependencies = (
 			);
-			productName = "CodeSpellOracle";
+			productName = CodeSpellOracle;
 			productReference = 2D3FFAB72EBA571900EC2D08 /* CodeSpellOracle.app */;
 			productType = "com.apple.product-type.application";
 		};
@@ -317,10 +244,10 @@
 			dependencies = (
 				2D3FFAC72EBA571900EC2D08 /* PBXTargetDependency */,
 			);
-			name = "CodeSpellOracleTests";
+			name = CodeSpellOracleTests;
 			packageProductDependencies = (
 			);
-			productName = "CodeSpellOracleTests";
+			productName = CodeSpellOracleTests;
 			productReference = 2D3FFAC52EBA571900EC2D08 /* CodeSpellOracleTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
@@ -337,10 +264,10 @@
 			dependencies = (
 				2D3FFAD12EBA571900EC2D08 /* PBXTargetDependency */,
 			);
-			name = "CodeSpellOracleUITests";
+			name = CodeSpellOracleUITests;
 			packageProductDependencies = (
 			);
-			productName = "CodeSpellOracleUITests";
+			productName = CodeSpellOracleUITests;
 			productReference = 2D3FFACF2EBA571900EC2D08 /* CodeSpellOracleUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
@@ -778,7 +705,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "Spiral.CodeSpellOracle";
+				PRODUCT_BUNDLE_IDENTIFIER = Spiral.CodeSpellOracle;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -804,7 +731,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "Spiral.CodeSpellOracle";
+				PRODUCT_BUNDLE_IDENTIFIER = Spiral.CodeSpellOracle;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -822,7 +749,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 15.5;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "Spiral.CodeSpellOracleTests";
+				PRODUCT_BUNDLE_IDENTIFIER = Spiral.CodeSpellOracleTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
@@ -840,7 +767,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 15.5;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "Spiral.CodeSpellOracleTests";
+				PRODUCT_BUNDLE_IDENTIFIER = Spiral.CodeSpellOracleTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
@@ -856,11 +783,11 @@
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "Spiral.CodeSpellOracleUITests";
+				PRODUCT_BUNDLE_IDENTIFIER = Spiral.CodeSpellOracleUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
-				TEST_TARGET_NAME = "CodeSpellOracle";
+				TEST_TARGET_NAME = CodeSpellOracle;
 			};
 			name = Debug;
 		};
@@ -872,11 +799,11 @@
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "Spiral.CodeSpellOracleUITests";
+				PRODUCT_BUNDLE_IDENTIFIER = Spiral.CodeSpellOracleUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
-				TEST_TARGET_NAME = "CodeSpellOracle";
+				TEST_TARGET_NAME = CodeSpellOracle;
 			};
 			name = Release;
 		};

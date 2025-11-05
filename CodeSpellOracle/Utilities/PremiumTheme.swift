@@ -157,64 +157,83 @@ struct CyberpunkHUD: View {
     let level: Int
     let spellsCompleted: Int
     let powerLevel: Double
-    
+
     var body: some View {
         VStack {
-            HStack {
-                // Level indicator
-                VStack(alignment: .leading, spacing: 4) {
-                    Text("LEVEL")
-                        .font(.system(size: 10, weight: .bold, design: .monospaced))
+            HStack(alignment: .top, spacing: 12) {
+                // Level indicator - compact version
+                HStack(spacing: 6) {
+                    Text("LV")
+                        .font(.system(size: 8, weight: .bold, design: .monospaced))
                         .foregroundColor(Theme.neon.neonCyan.opacity(0.7))
                     Text("\(level)")
-                        .font(.system(size: 32, weight: .bold, design: .monospaced))
+                        .font(.system(size: 18, weight: .bold, design: .monospaced))
                         .foregroundColor(Theme.neon.neonCyan)
-                        .neonGlow(color: Theme.neon.neonCyan, intensity: 0.8)
+                        .neonGlow(color: Theme.neon.neonCyan, intensity: 0.6)
                 }
-                .padding(Theme.spacing.l)
-                .glassmorphic(glowColor: Theme.neon.neonCyan)
-                
+                .padding(.horizontal, 12)
+                .padding(.vertical, 8)
+                .background(
+                    RoundedRectangle(cornerRadius: 8)
+                        .fill(Color.black.opacity(0.4))
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 8)
+                                .stroke(Theme.neon.neonCyan.opacity(0.3), lineWidth: 1)
+                        )
+                )
+
                 Spacer()
-                
-                // Power meter
-                VStack(alignment: .trailing, spacing: 4) {
-                    Text("POWER")
-                        .font(.system(size: 10, weight: .bold, design: .monospaced))
+
+                // Power meter - compact version
+                VStack(alignment: .trailing, spacing: 3) {
+                    Text("PWR")
+                        .font(.system(size: 8, weight: .bold, design: .monospaced))
                         .foregroundColor(Theme.neon.toxicGreen.opacity(0.7))
-                    
-                    GeometryReader { geometry in
-                        ZStack(alignment: .leading) {
-                            // Background
-                            RoundedRectangle(cornerRadius: 4)
-                                .fill(Color.black.opacity(0.5))
-                                .frame(height: 8)
-                            
-                            // Fill
-                            RoundedRectangle(cornerRadius: 4)
-                                .fill(
-                                    LinearGradient(
-                                        colors: [Theme.neon.toxicGreen, Theme.neon.neonCyan],
-                                        startPoint: .leading,
-                                        endPoint: .trailing
+
+                    HStack(spacing: 6) {
+                        // Progress bar
+                        GeometryReader { geometry in
+                            ZStack(alignment: .leading) {
+                                RoundedRectangle(cornerRadius: 3)
+                                    .fill(Color.black.opacity(0.5))
+                                    .frame(height: 6)
+
+                                RoundedRectangle(cornerRadius: 3)
+                                    .fill(
+                                        LinearGradient(
+                                            colors: [Theme.neon.toxicGreen, Theme.neon.neonCyan],
+                                            startPoint: .leading,
+                                            endPoint: .trailing
+                                        )
                                     )
-                                )
-                                .frame(width: geometry.size.width * powerLevel, height: 8)
-                                .neonGlow(color: Theme.neon.toxicGreen, intensity: 0.6)
+                                    .frame(width: geometry.size.width * powerLevel, height: 6)
+                                    .neonGlow(color: Theme.neon.toxicGreen, intensity: 0.5)
+                            }
                         }
+                        .frame(width: 80, height: 6)
+
+                        Text("\(Int(powerLevel * 100))%")
+                            .font(.system(size: 12, weight: .bold, design: .monospaced))
+                            .foregroundColor(Theme.neon.toxicGreen)
                     }
-                    .frame(width: 120, height: 8)
-                    
-                    Text("\(Int(powerLevel * 100))%")
-                        .font(.system(size: 14, weight: .bold, design: .monospaced))
-                        .foregroundColor(Theme.neon.toxicGreen)
                 }
-                .padding(Theme.spacing.l)
-                .glassmorphic(glowColor: Theme.neon.toxicGreen)
+                .padding(.horizontal, 12)
+                .padding(.vertical, 8)
+                .background(
+                    RoundedRectangle(cornerRadius: 8)
+                        .fill(Color.black.opacity(0.4))
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 8)
+                                .stroke(Theme.neon.toxicGreen.opacity(0.3), lineWidth: 1)
+                        )
+                )
             }
-            .padding()
-            
+            .padding(.horizontal, 16)
+            .padding(.top, 12)
+
             Spacer()
         }
+        .allowsHitTesting(false) // Allow clicks to pass through
     }
 }
 

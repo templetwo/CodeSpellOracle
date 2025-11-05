@@ -26,9 +26,25 @@ class AudioService: ObservableObject {
     func playSound(_ soundName: String, volume: Float = 1.0) {
         guard soundEnabled else { return }
         
-        // TODO: Implement actual sound playback
-        // For now, this is a stub that can be implemented with actual sound files
-        print("🔊 Playing sound: \(soundName)")
+        if let player = audioPlayers[soundName] {
+            player.volume = volume
+            player.play()
+            return
+        }
+        
+        guard let url = Bundle.main.url(forResource: soundName, withExtension: "wav") else {
+            print("Sound file not found: \(soundName)")
+            return
+        }
+        
+        do {
+            let player = try AVAudioPlayer(contentsOf: url)
+            audioPlayers[soundName] = player
+            player.volume = volume
+            player.play()
+        } catch {
+            print("Error loading sound: \(error)")
+        }
     }
     
     func playTypingSound(for character: Character) {
@@ -64,8 +80,19 @@ class AudioService: ObservableObject {
     func startBackgroundMusic() {
         guard musicEnabled else { return }
         
-        // TODO: Implement background music
-        print("🎵 Starting background music")
+        guard let url = Bundle.main.url(forResource: "background_music", withExtension: "mp3") else {
+            print("Background music file not found")
+            return
+        }
+        
+        do {
+            backgroundMusicPlayer = try AVAudioPlayer(contentsOf: url)
+            backgroundMusicPlayer?.numberOfLoops = -1
+            backgroundMusicPlayer?.volume = 0.5
+            backgroundMusicPlayer?.play()
+        } catch {
+            print("Error playing background music: \(error)")
+        }
     }
     
     func stopBackgroundMusic() {

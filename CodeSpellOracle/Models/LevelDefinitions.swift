@@ -44,7 +44,8 @@ struct LevelDefinitions {
             ],
             hints: [
                 "Use + to join strings",
-                "Don't forget the space: \" \""
+                "Don't forget the space: \" \"",
+                "Use straight double quotes (\" ) for strings, not curly quotes (“ ”)"
             ],
             solution: "def combine_words(word1, word2):\n    return word1 + \" \" + word2",
             xpReward: 10,

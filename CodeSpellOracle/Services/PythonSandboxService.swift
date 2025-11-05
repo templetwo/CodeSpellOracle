@@ -134,7 +134,7 @@ actor PythonSandboxService {
         testCases: [TestCase]
     ) async throws -> [TestResult] {
         var results: [TestResult] = []
-        
+
         for testCase in testCases {
             // Build test code
             let testCode = buildTestCode(
@@ -143,21 +143,24 @@ actor PythonSandboxService {
                 inputs: testCase.inputs,
                 expectedOutput: testCase.expectedOutput
             )
-            
+
             do {
                 let result = try await execute(code: testCode)
-                let testResult = parseTestResult(result, testCase: testCase)
+                let testResult = parseTestResult(result, testCase: testCase, userCode: code)
                 results.append(testResult)
             } catch {
+                let errorMsg = error.localizedDescription
+                let mysticalError = MysticalErrorHandler.translate(errorMsg, code: code)
                 results.append(TestResult(
                     testCase: testCase,
                     passed: false,
                     actualOutput: nil,
-                    error: error.localizedDescription
+                    error: errorMsg,
+                    mysticalError: mysticalError
                 ))
             }
         }
-        
+
         return results
     }
     
@@ -191,35 +194,42 @@ actor PythonSandboxService {
         ].joined(separator: "\n")
     }
     
-    private func parseTestResult(_ result: PythonExecutionResult, testCase: TestCase) -> TestResult {
+    private func parseTestResult(_ result: PythonExecutionResult, testCase: TestCase, userCode: String = "") -> TestResult {
         guard result.success,
               let data = result.output.data(using: .utf8),
               let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any] else {
+            let errorMsg = result.error ?? "Failed to parse result"
+            let mysticalError = MysticalErrorHandler.translate(errorMsg, code: userCode)
             return TestResult(
                 testCase: testCase,
                 passed: false,
                 actualOutput: nil,
-                error: result.error ?? "Failed to parse result"
+                error: errorMsg,
+                mysticalError: mysticalError
             )
         }
-        
+
         if let success = json["success"] as? Bool, success {
             let output = json["output"] as? String ?? ""
             let expected = json["expected"] as? String ?? ""
             let passed = output == expected
-            
+
             return TestResult(
                 testCase: testCase,
                 passed: passed,
                 actualOutput: output,
-                error: passed ? nil : "Expected \(expected), got \(output)"
+                error: passed ? nil : "Expected \(expected), got \(output)",
+                mysticalError: nil
             )
         } else {
+            let errorMsg = json["error"] as? String ?? "Unknown error"
+            let mysticalError = MysticalErrorHandler.translate(errorMsg, code: userCode)
             return TestResult(
                 testCase: testCase,
                 passed: false,
                 actualOutput: nil,
-                error: json["error"] as? String ?? "Unknown error"
+                error: errorMsg,
+                mysticalError: mysticalError
             )
         }
     }
@@ -278,4 +288,13 @@ struct TestResult: Identifiable {
     let passed: Bool
     let actualOutput: String?
     let error: String?
+    let mysticalError: MysticalError?
+
+    init(testCase: TestCase, passed: Bool, actualOutput: String?, error: String?, mysticalError: MysticalError? = nil) {
+        self.testCase = testCase
+        self.passed = passed
+        self.actualOutput = actualOutput
+        self.error = error
+        self.mysticalError = mysticalError
+    }
 }

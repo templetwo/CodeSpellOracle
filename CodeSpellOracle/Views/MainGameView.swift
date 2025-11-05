@@ -298,41 +298,41 @@ struct QuoteBox: View {
 
 struct TestResultCard: View {
     let result: TestResult
-    
+
     var body: some View {
-        HStack(spacing: 8) {
-            Image(systemName: result.passed ? "checkmark.circle.fill" : "xmark.circle.fill")
-                .foregroundColor(result.passed ? .green : .red)
-                .font(.caption)
-            
-            VStack(alignment: .leading, spacing: 4) {
+        VStack(alignment: .leading, spacing: 8) {
+            // Test case header
+            HStack(spacing: 8) {
+                Image(systemName: result.passed ? "checkmark.circle.fill" : "xmark.circle.fill")
+                    .foregroundColor(result.passed ? .green : .red)
+                    .font(.caption)
+
                 Text(result.testCase.inputs.joined(separator: ", "))
                     .font(.caption2)
                     .bold()
-                
+
+                Spacer()
+
                 if let output = result.actualOutput {
                     Text("→ \(output)")
                         .font(.caption2)
                         .foregroundColor(.secondary)
                 }
-                
-                if let error = result.error {
-                    Text(error)
-                        .font(.caption2)
-                        .foregroundColor(.red)
-                        .lineLimit(2)
-                }
             }
-            
-            Spacer()
+
+            // Show mystical error if available, otherwise show raw error
+            if let mysticalError = result.mysticalError {
+                MysticalErrorView(error: mysticalError)
+            } else if let error = result.error {
+                Text(error)
+                    .font(.caption2)
+                    .foregroundColor(.red)
+                    .padding(.leading, 24)
+            }
         }
         .padding(8)
-        .background(result.passed ? Color.green.opacity(0.1) : Color.red.opacity(0.1))
+        .background(result.passed ? Color.green.opacity(0.05) : Color.clear)
         .cornerRadius(6)
-        .overlay(
-            RoundedRectangle(cornerRadius: 6)
-                .stroke(result.passed ? Color.green.opacity(0.3) : Color.red.opacity(0.3), lineWidth: 1)
-        )
     }
 }
 

@@ -376,26 +376,30 @@ struct PremiumRightPanel: View {
 struct PremiumTestResultCard: View {
     let result: TestResult
     let index: Int
-    
+
     var body: some View {
         VStack(alignment: .leading, spacing: Theme.spacing.s) {
             HStack {
                 Image(systemName: result.passed ? "checkmark.circle.fill" : "xmark.circle.fill")
                     .foregroundColor(result.passed ? Theme.neon.toxicGreen : Theme.neon.glitchRed)
                     .neonGlow(color: result.passed ? Theme.neon.toxicGreen : Theme.neon.glitchRed, intensity: 0.8)
-                
+
                 Text("Test \(index + 1)")
                     .font(.system(.caption, design: .monospaced))
                     .foregroundColor(Theme.colors.textPrimary)
-                
+
                 Spacer()
-                
+
                 Text(result.passed ? "PASS" : "FAIL")
                     .font(.system(size: 9, weight: .bold, design: .monospaced))
                     .foregroundColor(result.passed ? Theme.neon.toxicGreen : Theme.neon.glitchRed)
             }
-            
-            if let error = result.error {
+
+            // Show mystical error if available, otherwise fallback to raw error
+            if let mysticalError = result.mysticalError {
+                MysticalErrorView(error: mysticalError)
+                    .padding(.top, Theme.spacing.s)
+            } else if let error = result.error {
                 Text(error)
                     .font(.system(.caption2, design: .monospaced))
                     .foregroundColor(Theme.neon.glitchRed)

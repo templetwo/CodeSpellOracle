@@ -14,88 +14,91 @@ struct MainGameViewPremium: View {
     @State private var showSuccessParticles = false
     
     var body: some View {
-        ZStack {
-            // Animated background
-            AnimatedBackgroundView()
-            
-            // Main content
-            HStack(spacing: 0) {
-                // LEFT PANEL: Level Info & Hints
-                PremiumLeftPanel(
-                    level: gameState.currentLevel,
-                    showHint: $showHint,
-                    hintIndex: $hintIndex
-                )
-                .frame(width: 320)
-                .glassmorphic(glowColor: Theme.neon.neonCyan)
-                
-                Divider()
-                    .overlay(Theme.neon.neonCyan.opacity(0.3))
-                
-                // CENTER PANEL: Code Editor
-                VStack(spacing: 0) {
-                    PremiumCodeEditorPanel(code: $code)
-                    
+        GeometryReader { geometry in
+            let sidePanelWidth = calculateSidePanelWidth(totalWidth: geometry.size.width)
+
+            ZStack {
+                // Animated background
+                AnimatedBackgroundView()
+
+                // Main content
+                HStack(spacing: 0) {
+                    // LEFT PANEL: Level Info & Hints
+                    PremiumLeftPanel(
+                        level: gameState.currentLevel,
+                        showHint: $showHint,
+                        hintIndex: $hintIndex
+                    )
+                    .frame(width: sidePanelWidth)
+                    .glassmorphic(glowColor: Theme.neon.neonCyan)
+
+                    Divider()
+                        .overlay(Theme.neon.neonCyan.opacity(0.3))
+
+                    // CENTER PANEL: Code Editor
+                    VStack(spacing: 0) {
+                        PremiumCodeEditorPanel(code: $code)
+
+                        Divider()
+                            .overlay(Theme.neon.toxicGreen.opacity(0.3))
+
+                        // Action Bar with premium styling
+                        HStack(spacing: Theme.spacing.l) {
+                            Button(action: runCode) {
+                                HStack(spacing: Theme.spacing.s) {
+                                    Image(systemName: "play.fill")
+                                    Text("Cast Spell")
+                                }
+                            }
+                            .keyboardShortcut("r", modifiers: .command)
+                            .disabled(isRunning || gameState.currentLevel == nil)
+                            .buttonStyle(SpellCastButton(color: Theme.neon.spellCasting))
+
+                            Button(action: requestHint) {
+                                HStack(spacing: Theme.spacing.s) {
+                                    Image(systemName: "lightbulb.fill")
+                                    Text("Oracle Wisdom")
+                                }
+                            }
+                            .keyboardShortcut("h", modifiers: .command)
+                            .disabled(gameState.currentLevel == nil)
+                            .buttonStyle(SpellCastButton(color: Theme.neon.electricPurple))
+
+                            Spacer()
+
+                            if isRunning {
+                                HStack(spacing: Theme.spacing.s) {
+                                    ProgressView()
+                                        .scaleEffect(0.8)
+                                    Text("Channeling...")
+                                        .font(.system(.caption, design: .monospaced))
+                                        .foregroundColor(Theme.neon.neonCyan)
+                                }
+                                .pulsing(color: Theme.neon.neonCyan)
+                            }
+                        }
+                        .padding(Theme.spacing.l)
+                        .background(
+                            Color.black.opacity(0.5)
+                                .overlay(
+                                    LinearGradient(
+                                        colors: [Theme.neon.neonCyan.opacity(0.1), .clear],
+                                        startPoint: .leading,
+                                        endPoint: .trailing
+                                    )
+                                )
+                        )
+                    }
+
                     Divider()
                         .overlay(Theme.neon.toxicGreen.opacity(0.3))
-                    
-                    // Action Bar with premium styling
-                    HStack(spacing: Theme.spacing.l) {
-                        Button(action: runCode) {
-                            HStack(spacing: Theme.spacing.s) {
-                                Image(systemName: "play.fill")
-                                Text("Cast Spell")
-                            }
-                        }
-                        .keyboardShortcut("r", modifiers: .command)
-                        .disabled(isRunning || gameState.currentLevel == nil)
-                        .buttonStyle(SpellCastButton(color: Theme.neon.spellCasting))
-                        
-                        Button(action: requestHint) {
-                            HStack(spacing: Theme.spacing.s) {
-                                Image(systemName: "lightbulb.fill")
-                                Text("Oracle Wisdom")
-                            }
-                        }
-                        .keyboardShortcut("h", modifiers: .command)
-                        .disabled(gameState.currentLevel == nil)
-                        .buttonStyle(SpellCastButton(color: Theme.neon.electricPurple))
-                        
-                        Spacer()
-                        
-                        if isRunning {
-                            HStack(spacing: Theme.spacing.s) {
-                                ProgressView()
-                                    .scaleEffect(0.8)
-                                Text("Channeling...")
-                                    .font(.system(.caption, design: .monospaced))
-                                    .foregroundColor(Theme.neon.neonCyan)
-                            }
-                            .pulsing(color: Theme.neon.neonCyan)
-                        }
-                    }
-                    .padding(Theme.spacing.l)
-                    .background(
-                        Color.black.opacity(0.5)
-                            .overlay(
-                                LinearGradient(
-                                    colors: [Theme.neon.neonCyan.opacity(0.1), .clear],
-                                    startPoint: .leading,
-                                    endPoint: .trailing
-                                )
-                            )
-                    )
+
+                    // RIGHT PANEL: Test Results
+                    PremiumRightPanel(testResults: testResults)
+                        .frame(width: sidePanelWidth)
+                        .glassmorphic(glowColor: Theme.neon.toxicGreen)
                 }
-                
-                Divider()
-                    .overlay(Theme.neon.toxicGreen.opacity(0.3))
-                
-                // RIGHT PANEL: Test Results
-                PremiumRightPanel(testResults: testResults)
-                    .frame(width: 320)
-                    .glassmorphic(glowColor: Theme.neon.toxicGreen)
-            }
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
             
             // HUD Overlay
             if let level = gameState.currentLevel {
@@ -115,6 +118,7 @@ struct MainGameViewPremium: View {
             // Welcome overlay
             if gameState.currentLevel == nil {
                 PremiumWelcomeOverlay()
+            }
             }
         }
         .toast(isPresented: $showToast, toastConfig)
@@ -152,6 +156,20 @@ struct MainGameViewPremium: View {
             showHint = true
             HapticsService.shared.play(.selection)
         }
+    }
+
+    /// Calculate responsive side panel width based on available space
+    /// Ensures center panel always has minimum 600px for comfortable editing
+    private func calculateSidePanelWidth(totalWidth: CGFloat) -> CGFloat {
+        let minimumCenterWidth: CGFloat = 600
+        let dividersWidth: CGFloat = 4 // 2 dividers × ~2px each
+        let availableForPanels = totalWidth - minimumCenterWidth - dividersWidth
+
+        // Each side panel gets half of available space
+        let calculatedWidth = availableForPanels / 2
+
+        // Clamp between 240px (minimum) and 320px (maximum)
+        return min(max(calculatedWidth, 240), 320)
     }
 }
 

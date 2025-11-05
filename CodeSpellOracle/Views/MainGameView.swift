@@ -12,65 +12,83 @@ struct MainGameView: View {
     @State private var toastConfig = ToastConfig(style: .info, message: "")
     
     var body: some View {
-        HStack(spacing: 0) {
-            // LEFT PANEL: Level Info & Hints
-            LeftPanel(
-                level: gameState.currentLevel,
-                showHint: $showHint,
-                hintIndex: $hintIndex
-            )
-            .frame(width: 280)
-            .panelBackground()
-            
-            Divider()
-            
-            // CENTER PANEL: Code Editor
-            VStack(spacing: 0) {
-                CodeEditorPanel(code: $code)
-                
-                Divider()
-                
-                // Action Bar
-                HStack {
-                    Button(action: runCode) {
-                        Label("Run Code", systemImage: "play.fill")
-                    }
-                    .keyboardShortcut("r", modifiers: .command)
-                    .disabled(isRunning || gameState.currentLevel == nil)
-                    .buttonStyle(PrimaryButtonStyle())
-                    
-                    Button(action: requestHint) {
-                        Label("Hint", systemImage: "lightbulb")
-                    }
-                    .keyboardShortcut("h", modifiers: .command)
-                    .disabled(gameState.currentLevel == nil)
-                    .buttonStyle(SecondaryButtonStyle())
-                    
-                    Spacer()
-                    
-                    if isRunning {
-                        ProgressView()
-                            .scaleEffect(0.7)
-                    }
-                }
-                .padding()
-                .background(Color(nsColor: .controlBackgroundColor))
-            }
-            
-            Divider()
-            
-            // RIGHT PANEL: Test Results
-            RightPanel(testResults: testResults)
-                .frame(width: 280)
+        GeometryReader { geometry in
+            let sidePanelWidth = calculateSidePanelWidth(totalWidth: geometry.size.width)
+
+            HStack(spacing: 0) {
+                // LEFT PANEL: Level Info & Hints
+                LeftPanel(
+                    level: gameState.currentLevel,
+                    showHint: $showHint,
+                    hintIndex: $hintIndex
+                )
+                .frame(width: sidePanelWidth)
                 .panelBackground()
-        }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .overlay(alignment: .top) {
-            if gameState.currentLevel == nil {
-                WelcomeOverlay()
+
+                Divider()
+
+                // CENTER PANEL: Code Editor
+                VStack(spacing: 0) {
+                    CodeEditorPanel(code: $code)
+
+                    Divider()
+
+                    // Action Bar
+                    HStack {
+                        Button(action: runCode) {
+                            Label("Run Code", systemImage: "play.fill")
+                        }
+                        .keyboardShortcut("r", modifiers: .command)
+                        .disabled(isRunning || gameState.currentLevel == nil)
+                        .buttonStyle(PrimaryButtonStyle())
+
+                        Button(action: requestHint) {
+                            Label("Hint", systemImage: "lightbulb")
+                        }
+                        .keyboardShortcut("h", modifiers: .command)
+                        .disabled(gameState.currentLevel == nil)
+                        .buttonStyle(SecondaryButtonStyle())
+
+                        Spacer()
+
+                        if isRunning {
+                            ProgressView()
+                                .scaleEffect(0.7)
+                        }
+                    }
+                    .padding()
+                    .background(Color(nsColor: .controlBackgroundColor))
+                }
+
+                Divider()
+
+                // RIGHT PANEL: Test Results
+                RightPanel(testResults: testResults)
+                    .frame(width: sidePanelWidth)
+                    .panelBackground()
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .overlay(alignment: .top) {
+                if gameState.currentLevel == nil {
+                    WelcomeOverlay()
+                }
             }
         }
         .toast(isPresented: $showToast, toastConfig)
+    }
+
+    /// Calculate responsive side panel width based on available space
+    /// Ensures center panel always has minimum 600px for comfortable editing
+    private func calculateSidePanelWidth(totalWidth: CGFloat) -> CGFloat {
+        let minimumCenterWidth: CGFloat = 600
+        let dividersWidth: CGFloat = 4 // 2 dividers × ~2px each
+        let availableForPanels = totalWidth - minimumCenterWidth - dividersWidth
+
+        // Each side panel gets half of available space
+        let calculatedWidth = availableForPanels / 2
+
+        // Clamp between 240px (minimum) and 320px (maximum)
+        return min(max(calculatedWidth, 240), 320)
     }
     
     private func runCode() {

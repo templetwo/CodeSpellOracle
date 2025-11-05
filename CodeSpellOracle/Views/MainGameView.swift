@@ -94,13 +94,24 @@ struct MainGameView: View {
     private func runCode() {
         isRunning = true
         testResults = []
-        
+
+        // Play spell casting sound
+        AudioService.shared.playSpellCast()
+
         Task {
             let results = await gameState.submitCode(code)
             await MainActor.run {
                 testResults = results
                 isRunning = false
                 let allPass = results.allSatisfy { $0.passed }
+
+                // Play result sound
+                if allPass {
+                    AudioService.shared.playSuccess()
+                } else {
+                    AudioService.shared.playError()
+                }
+
                 toastConfig = ToastConfig(style: allPass ? .success : .error,
                                           message: allPass ? "All tests passed!" : "Some tests failed")
                 showToast = true

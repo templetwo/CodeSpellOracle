@@ -128,18 +128,24 @@ struct MainGameViewPremium: View {
         isRunning = true
         testResults = []
         showSpellEffect = true
-        
+
+        // Play spell casting sound
+        AudioService.shared.playSpellCast()
+
         Task {
             let results = await gameState.submitCode(code)
             await MainActor.run {
                 testResults = results
                 isRunning = false
                 let allPass = results.allSatisfy { $0.passed }
-                
+
                 if allPass {
                     showSuccessParticles = true
+                    AudioService.shared.playSuccess()
+                } else {
+                    AudioService.shared.playError()
                 }
-                
+
                 toastConfig = ToastConfig(
                     style: allPass ? .success : .error,
                     message: allPass ? "✨ Spell successfully cast!" : "⚠️ Spell casting failed"

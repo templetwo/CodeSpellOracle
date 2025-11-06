@@ -107,7 +107,21 @@ struct MainGameView: View {
 
                 // Play result sound
                 if allPass {
-                    AudioService.shared.playSuccess()
+                    AudioService.shared.playLevelComplete()
+                    
+                    // Auto-progress to next level after 2 seconds
+                    Task {
+                        try? await Task.sleep(nanoseconds: 2_000_000_000)
+                        await MainActor.run {
+                            if let nextLevel = gameState.nextLevel() {
+                                gameState.startLevel(nextLevel)
+                                code = ""
+                                testResults = []
+                                showHint = false
+                                hintIndex = 0
+                            }
+                        }
+                    }
                 } else {
                     AudioService.shared.playError()
                 }
@@ -262,6 +276,12 @@ struct CodeEditorPanel: View {
                     .opacity(code.isEmpty ? 0.5 : 1.0)
                     .scrollContentBackground(.hidden)
                     .background(Color(nsColor: .textBackgroundColor))
+                    .onChange(of: code) { oldValue, newValue in
+                        // Play typing sound on character add
+                        if newValue.count > oldValue.count, let lastChar = newValue.last {
+                            AudioService.shared.playTypingSound(for: lastChar)
+                        }
+                    }
             }
         }
     }

@@ -122,6 +122,9 @@ struct MainGameViewPremium: View {
             }
         }
         .toast(isPresented: $showToast, toastConfig)
+        .onAppear {
+            AudioService.shared.startBackgroundMusic()
+        }
     }
     
     private func runCode() {

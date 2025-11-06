@@ -75,6 +75,9 @@ struct MainGameView: View {
             }
         }
         .toast(isPresented: $showToast, toastConfig)
+        .onAppear {
+            AudioService.shared.startBackgroundMusic()
+        }
     }
 
     /// Calculate responsive side panel width based on available space

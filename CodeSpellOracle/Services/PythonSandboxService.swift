@@ -78,12 +78,12 @@ class PythonSandboxService {
             // Build complete test code: user's function + function call with test inputs
             let args = testCase.inputs.map { "\"\($0)\"" }.joined(separator: ", ")
             let testCode = """
-            \(code)
-            
-            # Test call
-            result = \(functionName)(\(args))
-            print(result)
-            """
+\(code)
+
+# Test call
+result = \(functionName)(\(args))
+print(result)
+"""
             
             let (output, error) = await execute(code: testCode)
             

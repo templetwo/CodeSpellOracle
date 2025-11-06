@@ -70,18 +70,6 @@ class PythonSandboxService {
         }
     }
     
-    /// Evaluates if the output matches expected for a test case
-    func evaluateTest(code: String, testCase: PythonTestCase) async -> PythonTestResult {
-        let (output, error) = await execute(code: code, testInput: testCase.inputs.joined(separator: "\n"))
-        
-        if let error = error {
-            return PythonTestResult(testCase: testCase, passed: false, actualOutput: nil, error: error)
-        }
-        
-        let passed = output == testCase.expectedOutput
-        return PythonTestResult(testCase: testCase, passed: passed, actualOutput: output, error: nil)
-    }
-    
     /// Tests a function against multiple test cases
     func testFunction(code: String, functionName: String, testCases: [TestCase]) async throws -> [TestResult] {
         var results: [TestResult] = []
@@ -122,18 +110,6 @@ class PythonSandboxService {
         
         return results
     }
-}
-
-struct PythonTestCase {
-    let inputs: [String]
-    let expectedOutput: String
-}
-
-struct PythonTestResult {
-    let testCase: PythonTestCase
-    let passed: Bool
-    let actualOutput: String?
-    let error: String?
 }
 
 // Used by GameState and views for Level test cases

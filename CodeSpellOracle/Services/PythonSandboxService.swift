@@ -87,7 +87,17 @@ class PythonSandboxService {
         var results: [TestResult] = []
         
         for testCase in testCases {
-            let (output, error) = await execute(code: code, testInput: testCase.inputs.joined(separator: "\n"))
+            // Build complete test code: user's function + function call with test inputs
+            let args = testCase.inputs.map { "\"\($0)\"" }.joined(separator: ", ")
+            let testCode = """
+            \(code)
+            
+            # Test call
+            result = \(functionName)(\(args))
+            print(result)
+            """
+            
+            let (output, error) = await execute(code: testCode)
             
             if let error = error {
                 let mysticalError = MysticalErrorHandler.translate(error, code: code)

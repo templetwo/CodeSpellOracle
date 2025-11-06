@@ -36,7 +36,10 @@ class PythonSandboxService {
             if let input = testInput {
                 let inputPipe = Pipe()
                 task.standardInput = inputPipe
-                try? input.write(to: inputPipe.fileHandleForWriting)
+                if let data = input.data(using: .utf8) {
+                    try? inputPipe.fileHandleForWriting.write(contentsOf: data)
+                    try? inputPipe.fileHandleForWriting.close()
+                }
             }
             
             // Timeout timer
@@ -68,26 +71,66 @@ class PythonSandboxService {
     }
     
     /// Evaluates if the output matches expected for a test case
-    func evaluateTest(code: String, testCase: TestCase) async -> TestResult {
+    func evaluateTest(code: String, testCase: PythonTestCase) async -> PythonTestResult {
         let (output, error) = await execute(code: code, testInput: testCase.inputs.joined(separator: "\n"))
         
         if let error = error {
-            return TestResult(testCase: testCase, passed: false, actualOutput: nil, error: error)
+            return PythonTestResult(testCase: testCase, passed: false, actualOutput: nil, error: error)
         }
         
         let passed = output == testCase.expectedOutput
-        return TestResult(testCase: testCase, passed: passed, actualOutput: output, error: nil)
+        return PythonTestResult(testCase: testCase, passed: passed, actualOutput: output, error: nil)
+    }
+    
+    /// Tests a function against multiple test cases
+    func testFunction(code: String, functionName: String, testCases: [TestCase]) async throws -> [TestResult] {
+        var results: [TestResult] = []
+        
+        for testCase in testCases {
+            let (output, error) = await execute(code: code, testInput: testCase.inputs.joined(separator: "\n"))
+            
+            if let error = error {
+                let mysticalError = MysticalErrorHandler.translate(error, code: code)
+                results.append(TestResult(
+                    testCase: testCase,
+                    passed: false,
+                    actualOutput: nil,
+                    error: error,
+                    mysticalError: mysticalError
+                ))
+            } else {
+                let passed = output.trimmingCharacters(in: .whitespacesAndNewlines) == testCase.expectedOutput.trimmingCharacters(in: .whitespacesAndNewlines)
+                results.append(TestResult(
+                    testCase: testCase,
+                    passed: passed,
+                    actualOutput: output,
+                    error: nil,
+                    mysticalError: nil
+                ))
+            }
+        }
+        
+        return results
     }
 }
 
-struct TestCase {
+struct PythonTestCase {
     let inputs: [String]
     let expectedOutput: String
 }
 
+struct PythonTestResult {
+    let testCase: PythonTestCase
+    let passed: Bool
+    let actualOutput: String?
+    let error: String?
+}
+
+// Used by GameState and views for Level test cases
 struct TestResult {
     let testCase: TestCase
     let passed: Bool
     let actualOutput: String?
     let error: String?
+    let mysticalError: MysticalError?
 }

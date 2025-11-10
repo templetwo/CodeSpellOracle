@@ -68,8 +68,8 @@ struct LevelDefinitions {
                 TestCase(inputs: ["10", "-5"], expectedOutput: "5"),
                 TestCase(inputs: ["0", "0"], expectedOutput: "0")
             ],
-            hints: ["Use the + operator"],
-            solution: "def add_numbers(a, b):\n    return a + b",
+            hints: ["Use the + operator", "Convert strings to integers with int()"],
+            solution: "def add_numbers(a, b):\n    return int(a) + int(b)",
             xpReward: 10,
             manaReward: 5
         ),
@@ -129,15 +129,15 @@ struct LevelDefinitions {
             concept: .lists,
             story: "In the Tournament of Numbers, find the mightiest.",
             oracleSays: "In any gathering, one rises above.",
-            description: "Create 'find_max' that finds the maximum in a list.",
+            description: "Create 'find_max' that finds the maximum in a comma-separated list.",
             functionName: "find_max",
-            example: "def find_max(numbers):\n    return max([int(n) for n in numbers])",
+            example: "def find_max(numbers):\n    nums = [int(n) for n in numbers.split(',')]\n    return max(nums)",
             testCases: [
-                TestCase(inputs: ["1", "5", "3", "9", "2"], expectedOutput: "9"),
-                TestCase(inputs: ["-5", "-2", "-10"], expectedOutput: "-2")
+                TestCase(inputs: ["1,5,3,9,2"], expectedOutput: "9"),
+                TestCase(inputs: ["-5,-2,-10"], expectedOutput: "-2")
             ],
-            hints: ["Use max() function"],
-            solution: "def find_max(*numbers):\n    return str(max([int(n) for n in numbers]))",
+            hints: ["Use max() function", "Split the string with .split(',')"],
+            solution: "def find_max(numbers):\n    nums = [int(n) for n in numbers.split(',')]\n    return max(nums)",
             xpReward: 20,
             manaReward: 10
         ),
@@ -172,16 +172,16 @@ struct LevelDefinitions {
             concept: .lists,
             story: "The Doubling Ceremony requires mass enchantment.",
             oracleSays: "Transform the many as easily as the one.",
-            description: "Create 'double_all' that doubles all numbers in a list.",
+            description: "Create 'double_all' that doubles all numbers in a comma-separated list.",
             functionName: "double_all",
-            example: "def double_all(numbers):\n    return [int(n) * 2 for n in numbers]",
+            example: "def double_all(numbers):\n    nums = [int(n) for n in numbers.split(',')]\n    return ','.join(str(n * 2) for n in nums)",
             testCases: [
-                TestCase(inputs: ["1", "2", "3"], expectedOutput: "[2, 4, 6]"),
-                TestCase(inputs: ["0", "-1", "5"], expectedOutput: "[0, -2, 10]"),
-                TestCase(inputs: [], expectedOutput: "[]")
+                TestCase(inputs: ["1,2,3"], expectedOutput: "2,4,6"),
+                TestCase(inputs: ["0,-1,5"], expectedOutput: "0,-2,10"),
+                TestCase(inputs: [""], expectedOutput: "")
             ],
-            hints: ["Use list comprehension", "[n * 2 for n in numbers]"],
-            solution: "def double_all(*numbers):\n    return [int(n) * 2 for n in numbers]",
+            hints: ["Use list comprehension", "Split the string, then join the results"],
+            solution: "def double_all(numbers):\n    if not numbers:\n        return \"\"\n    nums = [int(n) for n in numbers.split(',')]\n    return ','.join(str(n * 2) for n in nums)",
             xpReward: 25,
             manaReward: 12
         ),
@@ -218,7 +218,7 @@ struct LevelDefinitions {
             oracleSays: "In perfect symmetry lies ultimate mastery.",
             description: "Create 'is_palindrome' that checks for palindromes.",
             functionName: "is_palindrome",
-            example: "def is_palindrome(text):\n    cleaned = text.replace(' ', '').lower()\n    return cleaned == cleaned[::-1]",
+            example: "def is_palindrome(text):\n    cleaned = text.replace(' ', '').lower()\n    return str(cleaned == cleaned[::-1])",
             testCases: [
                 TestCase(inputs: ["racecar"], expectedOutput: "True"),
                 TestCase(inputs: ["hello"], expectedOutput: "False"),
@@ -238,16 +238,16 @@ struct LevelDefinitions {
             concept: .loops,
             story: "Filter the worthy from the unworthy with your spell.",
             oracleSays: "Not all who apply shall pass the test.",
-            description: "Create 'filter_evens' that returns only even numbers.",
+            description: "Create 'filter_evens' that returns only even numbers from a comma-separated list.",
             functionName: "filter_evens",
-            example: "def filter_evens(numbers):\n    return [int(n) for n in numbers if int(n) % 2 == 0]",
+            example: "def filter_evens(numbers):\n    nums = [int(n) for n in numbers.split(',') if int(n) % 2 == 0]\n    return ','.join(str(n) for n in nums)",
             testCases: [
-                TestCase(inputs: ["1", "2", "3", "4", "5"], expectedOutput: "[2, 4]"),
-                TestCase(inputs: ["1", "3", "5"], expectedOutput: "[]"),
-                TestCase(inputs: ["2", "4", "6"], expectedOutput: "[2, 4, 6]")
+                TestCase(inputs: ["1,2,3,4,5"], expectedOutput: "2,4"),
+                TestCase(inputs: ["1,3,5"], expectedOutput: ""),
+                TestCase(inputs: ["2,4,6"], expectedOutput: "2,4,6")
             ],
-            hints: ["Use list comprehension with condition", "[n for n in numbers if condition]"],
-            solution: "def filter_evens(*numbers):\n    return [int(n) for n in numbers if int(n) % 2 == 0]",
+            hints: ["Use list comprehension with condition", "Filter with if n % 2 == 0"],
+            solution: "def filter_evens(numbers):\n    if not numbers:\n        return \"\"\n    nums = [int(n) for n in numbers.split(',') if int(n) % 2 == 0]\n    return ','.join(str(n) for n in nums)",
             xpReward: 40,
             manaReward: 20
         ),
@@ -260,16 +260,16 @@ struct LevelDefinitions {
             concept: .loops,
             story: "Combine the power of all numbers into one.",
             oracleSays: "Unity brings strength.",
-            description: "Create 'sum_list' that returns the sum of all numbers.",
+            description: "Create 'sum_list' that returns the sum of all numbers in a comma-separated list.",
             functionName: "sum_list",
-            example: "def sum_list(numbers):\n    return sum([int(n) for n in numbers])",
+            example: "def sum_list(numbers):\n    if not numbers:\n        return 0\n    return sum([int(n) for n in numbers.split(',')])",
             testCases: [
-                TestCase(inputs: ["1", "2", "3"], expectedOutput: "6"),
-                TestCase(inputs: [], expectedOutput: "0"),
-                TestCase(inputs: ["-1", "-2", "3"], expectedOutput: "0")
+                TestCase(inputs: ["1,2,3"], expectedOutput: "6"),
+                TestCase(inputs: [""], expectedOutput: "0"),
+                TestCase(inputs: ["-1,-2,3"], expectedOutput: "0")
             ],
-            hints: ["Python has a sum() function"],
-            solution: "def sum_list(*numbers):\n    return sum([int(n) for n in numbers])",
+            hints: ["Python has a sum() function", "Handle empty strings carefully"],
+            solution: "def sum_list(numbers):\n    if not numbers:\n        return 0\n    return sum([int(n) for n in numbers.split(',')])",
             xpReward: 40,
             manaReward: 20
         ),
@@ -305,16 +305,16 @@ struct LevelDefinitions {
             concept: .lists,
             story: "Order brings clarity. Sort the chaos into harmony.",
             oracleSays: "From chaos, create order.",
-            description: "Create 'sort_numbers' that returns a sorted list.",
+            description: "Create 'sort_numbers' that returns a sorted comma-separated list.",
             functionName: "sort_numbers",
-            example: "def sort_numbers(numbers):\n    return sorted([int(n) for n in numbers])",
+            example: "def sort_numbers(numbers):\n    if not numbers:\n        return \"\"\n    nums = [int(n) for n in numbers.split(',')]\n    return ','.join(str(n) for n in sorted(nums))",
             testCases: [
-                TestCase(inputs: ["3", "1", "2"], expectedOutput: "[1, 2, 3]"),
-                TestCase(inputs: ["5", "2", "8", "1"], expectedOutput: "[1, 2, 5, 8]"),
-                TestCase(inputs: [], expectedOutput: "[]")
+                TestCase(inputs: ["3,1,2"], expectedOutput: "1,2,3"),
+                TestCase(inputs: ["5,2,8,1"], expectedOutput: "1,2,5,8"),
+                TestCase(inputs: [""], expectedOutput: "")
             ],
-            hints: ["Use sorted() function"],
-            solution: "def sort_numbers(*numbers):\n    return sorted([int(n) for n in numbers])",
+            hints: ["Use sorted() function", "Return comma-separated string"],
+            solution: "def sort_numbers(numbers):\n    if not numbers:\n        return \"\"\n    nums = [int(n) for n in numbers.split(',')]\n    return ','.join(str(n) for n in sorted(nums))",
             xpReward: 50,
             manaReward: 25
         ),
@@ -398,7 +398,7 @@ struct LevelDefinitions {
             oracleSays: "Same elements, different arrangement.",
             description: "Create 'are_anagrams' that checks if two strings are anagrams.",
             functionName: "are_anagrams",
-            example: "def are_anagrams(str1, str2):\n    return sorted(str1.lower()) == sorted(str2.lower())",
+            example: "def are_anagrams(str1, str2):\n    s1 = str1.replace(' ', '').lower()\n    s2 = str2.replace(' ', '').lower()\n    return str(sorted(s1) == sorted(s2))",
             testCases: [
                 TestCase(inputs: ["listen", "silent"], expectedOutput: "True"),
                 TestCase(inputs: ["hello", "world"], expectedOutput: "False"),
